@@ -3,6 +3,8 @@ import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
 import sampleFishes from '../sample-fishes'
+import Fish from './Fish'
+
 class App extends React.Component{
     //use property to set state so we can pass the add fish form data to all components
     state = {
@@ -24,17 +26,24 @@ class App extends React.Component{
     loadSampleFishes = ()=>{
         //set the new fishes object to state
         //if obj names are diff      
-        this.setState({fishes:sampleFishes});
+        this.setState({ fishes: sampleFishes });
     };
     render(){
 
         return (
             <div className="catch-of-the-day">
                 <div className="menu">
-                    <Header/>
+                    <Header tagline="Fresh Seafood Market"/>
+                    <ul className="fishes">
+                    
+                        {Object.keys(this.state.fishes).map(key => < Fish key={key} details={this.state.fishes[key]}/>)}
+                    </ul>
                 </div>
                 <Order/>
-                <Inventory addFish={this.addFish} loadSampleFishes = {this.loadSampleFishes}/>
+                <Inventory 
+                    addFish={this.addFish} 
+                    loadSampleFishes = {this.loadSampleFishes}
+                />
                 
             </div>
         );
