@@ -2,8 +2,9 @@ import React from 'react';
 import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
-import sampleFishes from '../sample-fishes'
-import Fish from './Fish'
+import sampleFishes from '../sample-fishes';
+import Fish from './Fish';
+import base from '../base';
 
 class App extends React.Component{
     //use property to set state so we can pass the add fish form data to all components
@@ -11,6 +12,17 @@ class App extends React.Component{
         //set state as value type it will be ie string, object...
         fishes:{},
         order:{}
+    };
+    componentDidMount(){
+        this.ref = base.syncState(`${this.props.match.params.storeId}/fishes`,{
+            context: this,
+            state: 'fishes'       
+        });
+    }
+
+    componentWillUnmount(){
+        //unmount firebase when leaving page to prevent memory leak
+        base.removeBinding(this.ref);
     };
     addFish = fish => {
         console.log('Adding a fish!');
