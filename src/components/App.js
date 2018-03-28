@@ -13,7 +13,18 @@ class App extends React.Component{
         fishes:{},
         order:{}
     };
+    componentDidUpdate(){
+        console.log(this.state.order);
+        localStorage.setItem(this.props.match.params.storeId, JSON.stringify(this.state.order));
+    }
     componentDidMount(){
+        //first reinstate local storage
+        const localStorageRef = localStorage.getItem(this.props.match.params.storeId);
+        console.log(localStorageRef);
+        if(localStorageRef){
+            this.setState({order: JSON.parse(localStorageRef)})
+        }
+        //updates firebase when loads fishes
         this.ref = base.syncState(`${this.props.match.params.storeId}/fishes`,{
             context: this,
             state: 'fishes'       
